@@ -34,7 +34,7 @@ require('DBConnect.php');
 						if(isset($_GET['edit'])) { 
 							$select_sql = "SELECT * FROM infos WHERE id=$_GET[edit]";
 							//$select = mysqli_query($dbh, $select_sql);
-							foreach($dbh->query('SELECT * FROM infos') as $row) {
+							foreach($dbh->query("SELECT * FROM infos where id= $_GET[edit]") as $row) {
 							 	$fname = $row['fname'];
 								$lname = $row['lname'];
 								$age = $row['age'];
@@ -177,11 +177,9 @@ require('DBConnect.php');
 		$age = $_POST['age'];
 		$gender = $_POST['gender'];
 		$email = $_POST['email'];
-		$contact_number = $_POST['contact_number'];
-		
-		$insert_query = "INSERT INTO infos (fname,lname,age,gender,email,contact_number) VALUES ('$fname', '$lname', '$age', '$gender', '$email', '$contact_number')";
+		$contact_number = $_POST['contact_number'];	
 
-		$update_sql = "UPDATE infos SET fname ='$fname', lname='$lname', age='$age', gender='$gender', email='$email', contact_number ='$contact_number' WHERE id='$_GET[updateid]'";
+		
 		$query = $dbh->query("INSERT INTO infos (fname,lname,age,gender,email,contact_number) VALUES ('$fname', '$lname', '$age', '$gender', '$email', '$contact_number')");
         $query->execute();
 		
@@ -190,7 +188,7 @@ require('DBConnect.php');
 		<?php
 	}	
 	}
-    $insert_sql = "INSERT INTO infos (fname,lname,age,gender,email,contact_number) VALUES()";
+   
 
 	if( isset($_GET['id'])) {
 		$del_sql = "DELETE FROM infos WHERE id = $_GET[id]";
