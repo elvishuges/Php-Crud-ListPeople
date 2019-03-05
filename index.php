@@ -3,7 +3,7 @@
 <?php 
 	
 require('DBConnect.php');
-	$eid = 0;
+	
 ?>
 
 
@@ -31,10 +31,8 @@ require('DBConnect.php');
             <div class="container">
                 <div class="row">
                    <?php 
-						if(isset($_GET['edit'])) { 
-							$select_sql = "SELECT * FROM infos WHERE id=$_GET[edit]";
-							//$select = mysqli_query($dbh, $select_sql);
-							foreach($dbh->query("SELECT * FROM infos where id= $_GET[edit]") as $row) {
+						if(isset($_GET['edit'])) { 							
+							foreach($dbh->query("SELECT * FROM infos where id = $_GET[edit]") as $row) {
 							 	$fname = $row['fname'];
 								$lname = $row['lname'];
 								$age = $row['age'];
@@ -91,7 +89,7 @@ require('DBConnect.php');
 							<?php
 						}else{ ?>
 							<form class="col-md-3" method="POST">
-								<h3>Information Form</h3>
+								<h3>Formulário</h3>
 								<div class="form-group">
 									<label>First Name</label>
 									<input class="form-control" type="text" name="fname">
@@ -127,7 +125,7 @@ require('DBConnect.php');
 						}
 					?>
                     <div class="col-md-9" id="left">
-                        <h3 >Information Table</h3>
+                        <h3 >Lista</h3>
                         <table class="table table-responsive table-condensed">
                             <thead>
                                 <tr>
@@ -143,9 +141,7 @@ require('DBConnect.php');
                             </thead>
                             <tbody>
                             	<?php 
-								//	$sql = "SELECT * FROM infos";
-									//$result = mysqli_query($conn, $sql);
-									//while($row = mysqli_fetch_assoc($result)){
+								
 										foreach($dbh->query('SELECT * FROM infos') as $row) {
 										echo "
 											<tr>
@@ -181,7 +177,7 @@ require('DBConnect.php');
 
 		
 		$query = $dbh->query("INSERT INTO infos (fname,lname,age,gender,email,contact_number) VALUES ('$fname', '$lname', '$age', '$gender', '$email', '$contact_number')");
-        $query->execute();
+        
 		
 		if($query) { ?>
 			<script> window.location = 'index.php' </script>
@@ -189,13 +185,15 @@ require('DBConnect.php');
 	}	
 	}
    
-
+	
 	if( isset($_GET['id'])) {
 		$del_sql = "DELETE FROM infos WHERE id = $_GET[id]";
-		if(mysqli_query($conn, $del_sql)){ ?>
-			<script>window.location='form.php'</script>
-			
-			<?php
+		$query = $dbh->query("DELETE FROM infos WHERE id = $_GET[id]");
+        $query->execute();
+
+		if($query) { ?>
+			<script> window.location = 'index.php' </script>
+		<?php
 		}
 	}
 
@@ -207,7 +205,7 @@ require('DBConnect.php');
 		$email = $_GET['email'];
 		$contact_number = $_GET['contact_number'];
 		
-		$update_sql = "UPDATE infos SET fname ='$fname', lname='$lname', age='$age', gender='$gender', email='$email', contact_number ='$contact_number' WHERE id='$_GET[updateid]'";
+		
 		$query = $dbh->query("UPDATE infos SET fname ='$fname', lname='$lname', age='$age', gender='$gender', email='$email', contact_number ='$contact_number' WHERE id='$_GET[updateid]'");
         $query->execute();
     
